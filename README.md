@@ -2,6 +2,8 @@
 
 > A Claude/Codex skill that researches the best way to build your project before you commit to the wrong stack.
 
+![advise-project-approach social preview](./assets/social-preview.png)
+
 You know that friend who has built fifteen projects, read every ADR ever written, and will tell you "actually, don't use Kafka for this" before you have even opened your editor?
 
 This is that friend. As a skill.
@@ -157,6 +159,8 @@ Stack and Architecture Verdict / Risks and References
 |-- CONTRIBUTING.md
 |-- SECURITY.md
 |-- CLAUDE.md
+|-- assets/
+|   `-- social-preview.png
 |-- .claude-plugin/
 |   `-- plugin.json
 |-- .github/
@@ -174,6 +178,7 @@ Stack and Architecture Verdict / Risks and References
 |   |-- midbuild-express-api.md
 |   `-- postbuild-fastapi-template.md
 |-- scripts/
+|   |-- generate_social_preview.py
 |   |-- package_skill.py
 |   `-- validate_skill.py
 `-- tests/
@@ -193,6 +198,12 @@ python scripts/validate_skill.py
 ```
 
 The GitHub Actions workflow runs the same checks and fails if the generated package differs from what is committed.
+
+Regenerate the launch/social preview image:
+
+```bash
+python scripts/generate_social_preview.py
+```
 
 ## Tested Against
 
