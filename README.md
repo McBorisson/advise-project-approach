@@ -35,6 +35,10 @@ Download the packaged skill:
 
 [dist/advise-project-approach.skill](./dist/advise-project-approach.skill)
 
+Or install from the GitHub release:
+
+[v0.1.0 release asset](https://github.com/AaravKashyap12/advise-project-approach/releases/download/v0.1.0/advise-project-approach.skill)
+
 ### Skill UI
 
 1. Download `dist/advise-project-approach.skill`.
@@ -51,6 +55,10 @@ cp -r skills/advise-project-approach ~/.claude/skills/
 ```
 
 For Codex-style local installs, copy or symlink `skills/advise-project-approach` into your supported skills directory.
+
+### Plugin Metadata
+
+This repo also includes `.claude-plugin/plugin.json` for plugin-aware installers that can read skill collections from GitHub repositories.
 
 ## Demo
 
@@ -124,6 +132,14 @@ Stack and Architecture Verdict / Risks and References
 |-- README.md
 |-- LICENSE
 |-- CHANGELOG.md
+|-- CONTRIBUTING.md
+|-- SECURITY.md
+|-- CLAUDE.md
+|-- .claude-plugin/
+|   `-- plugin.json
+|-- .github/
+|   `-- workflows/
+|       `-- validate.yml
 |-- dist/
 |   `-- advise-project-approach.skill
 |-- skills/
@@ -135,11 +151,26 @@ Stack and Architecture Verdict / Risks and References
 |   |-- prebuild-bookmark-manager.md
 |   |-- midbuild-express-api.md
 |   `-- postbuild-fastapi-template.md
+|-- scripts/
+|   |-- package_skill.py
+|   `-- validate_skill.py
 `-- tests/
     `-- validation-notes.md
 ```
 
 The packaged `.skill` file is a zip archive containing the `advise-project-approach/` skill folder.
+
+## Development
+
+Validate and rebuild the package:
+
+```bash
+python scripts/validate_skill.py
+python scripts/package_skill.py
+python scripts/validate_skill.py
+```
+
+The GitHub Actions workflow runs the same checks and fails if the generated package differs from what is committed.
 
 ## Tested Against
 

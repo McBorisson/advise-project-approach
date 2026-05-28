@@ -1,0 +1,22 @@
+{
+  "name": "advise-project-approach",
+  "description": "Research the best way to build a software project before, during, or after implementation.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Aarav Kashyap"
+  },
+  "homepage": "https://github.com/AaravKashyap12/advise-project-approach",
+  "repository": "https://github.com/AaravKashyap12/advise-project-approach",
+  "license": "MIT",
+  "keywords": [
+    "claude-skills",
+    "agent-skills",
+    "project-planning",
+    "software-architecture",
+    "tech-stack",
+    "code-review"
+  ],
+  "skills": [
+    "./skills/advise-project-approach"
+  ]
+}
