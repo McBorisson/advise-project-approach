@@ -29,8 +29,12 @@ def main() -> None:
                 info = ZipInfo(relative.as_posix())
                 info.date_time = (2026, 1, 1, 0, 0, 0)
                 info.compress_type = ZIP_DEFLATED
+                info.create_system = 3
                 info.external_attr = 0o644 << 16
-                archive.writestr(info, path.read_bytes())
+                data = path.read_text(encoding="utf-8").replace("\r\n", "\n").encode(
+                    "utf-8"
+                )
+                archive.writestr(info, data)
 
     print(f"Built {OUT_FILE.relative_to(ROOT)}")
 
