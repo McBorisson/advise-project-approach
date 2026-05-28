@@ -22,19 +22,23 @@ def main() -> None:
     if OUT_FILE.exists():
         OUT_FILE.unlink()
 
+    paths = sorted(
+        (path for path in SOURCE_DIR.rglob("*") if path.is_file()),
+        key=lambda path: path.relative_to(SOURCE_DIR.parent).as_posix().lower(),
+    )
+
     with ZipFile(OUT_FILE, "w", compression=ZIP_DEFLATED) as archive:
-        for path in sorted(SOURCE_DIR.rglob("*")):
-            if path.is_file():
-                relative = path.relative_to(SOURCE_DIR.parent)
-                info = ZipInfo(relative.as_posix())
-                info.date_time = (2026, 1, 1, 0, 0, 0)
-                info.compress_type = ZIP_DEFLATED
-                info.create_system = 3
-                info.external_attr = 0o644 << 16
-                data = path.read_text(encoding="utf-8").replace("\r\n", "\n").encode(
-                    "utf-8"
-                )
-                archive.writestr(info, data)
+        for path in paths:
+            relative = path.relative_to(SOURCE_DIR.parent)
+            info = ZipInfo(relative.as_posix())
+            info.date_time = (2026, 1, 1, 0, 0, 0)
+            info.compress_type = ZIP_DEFLATED
+            info.create_system = 3
+            info.external_attr = 0o644 << 16
+            data = path.read_text(encoding="utf-8").replace("\r\n", "\n").encode(
+                "utf-8"
+            )
+            archive.writestr(info, data)
 
     print(f"Built {OUT_FILE.relative_to(ROOT)}")
 
