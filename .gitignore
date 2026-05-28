@@ -1,0 +1,11 @@
+# Local/editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Temporary validation output
+*.tmp
+*.log
+
+# Keep dist/*.skill tracked as release artifacts.
