@@ -77,3 +77,13 @@ Launch feedback added these validation expectations:
 - The recommendation should expose its decision framework, not only a confident answer.
 - Large repo reviews should map first, inspect targeted slices, and disclose skipped areas.
 - A/B examples should show where comparable research changes, narrows, or confirms the recommendation compared with generic prompting.
+
+## v0.3 Feedback Cases
+
+Pricing and vendor-choice feedback added these validation expectations:
+
+- "Free to start" must not be treated as evidence that a stack is cheap to operate.
+- Pricing-sensitive recommendations should check base plans, usage limits, storage, bandwidth, seats, add-ons, and lock-in when relevant.
+- If exact prices or quotas are not verified from a source, the output should avoid invented numbers and clearly mark pricing as unverified.
+- Tradeoffs should be blunt enough to remember: what you gain, what you give up, what becomes harder later, and when the recommendation becomes wrong.
+- The workflow should be explainable as portable `SKILL.md` instructions, not only as a Claude/Codex package.

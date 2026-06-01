@@ -102,3 +102,31 @@ Expected behavior:
 - mark conclusions as high-confidence or provisional
 
 The key difference: large-repo analysis should be bounded and transparent instead of pretending a full review happened.
+
+## Example 4: Vendor Pricing Reality
+
+Prompt:
+
+```text
+Should I use Supabase for my SaaS because it is free to start?
+```
+
+### Generic AI Answer
+
+Risky behavior:
+
+- repeats the vendor's homepage positioning
+- mentions the free tier without checking limits
+- ignores storage, bandwidth, auth, add-ons, and migration cost
+
+### Skill-Guided Answer
+
+Expected behavior:
+
+- verify official pricing/limits or mark pricing unverified
+- separate prototype cost from launch and growth cost
+- list the line items that could change the recommendation
+- compare managed convenience against self-hosting or lower-lock-in alternatives
+- state when Supabase is still the right call despite future cost risk
+
+The key difference: vendor recommendations should be based on the user's real operating model, not only on "free to start."

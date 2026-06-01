@@ -1,6 +1,6 @@
 ---
 name: advise-project-approach
-description: Research and advise on the best way to approach a software project, including architecture, tech stack, implementation strategy, benchmark research, and comparisons with similar real-world projects. Use before building, mid-build, or after completion when the user asks for project strategy, optimal approach, research comparables, similar projects, stack selection, repo analysis, architecture critique, implementation feedback, or a prioritized improvement plan. Avoid for narrow single-bug debugging or isolated file edits unless the user asks for broader project direction.
+description: Research and advise on the best way to approach a software project, including architecture, tech stack, implementation strategy, pricing/operating-cost tradeoffs, benchmark research, and comparisons with similar real-world projects. Use before building, mid-build, or after completion when the user asks for project strategy, optimal approach, research comparables, similar projects, stack selection, vendor/service choice, repo analysis, architecture critique, implementation feedback, or a prioritized improvement plan. Avoid for narrow single-bug debugging or isolated file edits unless the user asks for broader project direction.
 ---
 
 # Advise Project Approach
@@ -28,10 +28,11 @@ If a mid-build or post-build request provides only a description and no repo/cod
 - Treat the skill as read-only by default.
 - Do not produce a confident recommendation until you have inspected the available evidence or clearly stated what evidence is missing.
 - Do not recommend a stack because it is trendy; connect each recommendation to project constraints, ecosystem fit, team/user skill, deployment path, and maintenance cost.
+- Do not accept "free to start" or homepage marketing as proof that a stack is cheap to operate.
 - Treat comparable projects as evidence, not as a vote. Popularity, stars, and adoption signals can raise confidence but must not override user fit.
 - Do not copy architecture, infrastructure, or process from a mature comparable unless the user's scale, team, budget, and operating model justify it.
 - Do not claim an external comparable is active, popular, secure, production-used, or better without evidence.
-- Do not invent repositories, star counts, update dates, benchmark numbers, vulnerabilities, production adoption, or ecosystem norms.
+- Do not invent repositories, star counts, update dates, benchmark numbers, prices, quotas, vulnerabilities, production adoption, or ecosystem norms.
 
 ## Permission Boundaries
 
@@ -71,9 +72,10 @@ Follow the checklist in order. Skip a step only when it is impossible or irrelev
 2. **Inspect existing evidence** - if a repo/folder/URL exists, inspect README/docs, manifests, entry points, architecture notes, tests, CI, deploy config, and key source files. If no repo exists, use the user's description as the source of truth and list assumptions.
 3. **Research the landscape** - find credible comparable projects, official templates, reference architectures, standards, libraries, frameworks, and recent ecosystem guidance.
 4. **Extract decision criteria** - decide what matters most for this project: speed of build, correctness, UI quality, scalability, cost, portability, security, extensibility, AI-navigability, hiring/community, or operational simplicity.
-5. **Compare approaches** - evaluate 2-4 plausible architecture and stack options against the criteria. Include tradeoffs, migration risk, maturity, deployment fit, and when each option would be wrong.
-6. **Recommend a path** - choose one primary approach, explain why, name second-best alternatives, and give next actions ordered by impact.
-7. **Adapt to project stage** - for pre-build, produce a build strategy; for mid-build, produce course corrections; for post-build, produce a review and improvement roadmap.
+5. **Check operating costs** - when a managed service, cloud provider, AI API, storage layer, auth provider, database, search service, or hosting platform affects the recommendation, inspect pricing/limits deeply enough to avoid misleading "free tier" advice.
+6. **Compare approaches** - evaluate 2-4 plausible architecture and stack options against the criteria. Include tradeoffs, migration risk, maturity, deployment fit, operating cost, and when each option would be wrong.
+7. **Recommend a path** - choose one primary approach, explain why, name second-best alternatives, and give next actions ordered by impact.
+8. **Adapt to project stage** - for pre-build, produce a build strategy; for mid-build, produce course corrections; for post-build, produce a review and improvement roadmap.
 
 ## Decision Methodology
 
@@ -82,17 +84,20 @@ Use this framework to keep the advice reproducible instead of merely confident:
 1. **Constraints** - identify the user's real constraints: skill level, team size, timeline, scale, budget, deployment target, compliance/security needs, and tolerance for operational complexity.
 2. **Comparable map** - gather relevant projects or references, then label each as direct, adjacent, official/template, heavier, or lighter.
 3. **Transferable patterns** - separate choices that transfer to this project from choices that are specific to the comparable's team, scale, history, business model, or legacy constraints.
-4. **Tradeoff matrix** - compare viable options across fit, build speed, maintenance, deployment, data model, ecosystem maturity, migration risk, and failure modes. Use concise prose or a small table; avoid fake precision.
-5. **Recommendation** - choose the path that best fits the user's constraints, not the most popular project or the newest stack.
-6. **Failure conditions** - state when the recommendation becomes wrong and what evidence would cause a different decision.
+4. **Operating-cost reality** - separate "free to start" from expected monthly cost, cost growth, lock-in, migration burden, and operational complexity.
+5. **Tradeoff matrix** - compare viable options across fit, build speed, maintenance, deployment, data model, ecosystem maturity, cost model, migration risk, and failure modes. Use concise prose or a small table; avoid fake precision.
+6. **Recommendation** - choose the path that best fits the user's constraints, not the most popular project, the loudest vendor, or the newest stack.
+7. **Failure conditions** - state when the recommendation becomes wrong and what evidence would cause a different decision.
 
 When research changes the obvious recommendation, call that out explicitly. Example: "A generic answer might choose Next.js and Postgres, but the comparable set suggests Django plus SQLite/Postgres full-text search fits this solo self-hosted scope better because..."
 
 Before finalizing, run a quick self-check:
 
 - Did the recommendation depend on actual project constraints rather than generic popularity?
+- Did the recommendation account for real operating costs when pricing could change the decision?
 - Did the answer separate comparable projects found, transferable patterns, non-transferable details, and the final recommendation?
 - Did every "active", "maintained", "popular", or "production-ready" claim have evidence and an exact visible date or adoption signal?
+- Did every price, quota, free-tier, or usage-limit claim come from a visible pricing/source page or get marked unverified?
 - Did any section sound like a normal code review when no repo/code was inspected?
 - Did the answer include when the recommended approach would become the wrong approach?
 
@@ -152,6 +157,14 @@ Freshness rules:
 - Treat star counts, package downloads, release dates, and last commit dates as time-sensitive. Include "visible at time of review" or the observed date when useful.
 - If a comparable inspired the recommendation but uses a different current stack than expected, say that explicitly instead of flattening it into an older/simple version.
 
+Pricing freshness rules:
+
+- Use official pricing, quota, terms, or limits pages when pricing can affect the recommendation.
+- Include the observed date for price-sensitive claims when possible.
+- Do not say a service is "free", "cheap", "included", or "generous" without naming the relevant limits.
+- If pricing pages are unavailable, say pricing was not verified and list the cost categories the user must check before committing.
+- Distinguish development cost, launch cost, and steady-state operating cost.
+
 Comparable selection:
 
 - Include at least one direct domain comparable when available.
@@ -169,6 +182,40 @@ Use comparables to sharpen judgment, not outsource it.
 - If the best fit is less popular than the visible comparables, say why fit beats popularity.
 - If comparable research does not change the recommendation, say that too; the value may be confirming fit or exposing risks rather than changing stacks.
 
+## Pricing and Operating-Cost Analysis
+
+Perform deeper cost analysis when the user mentions budget, hosting, SaaS, cloud, database, auth, file storage, AI APIs, "free tier", "cheap", "self-host", "scale", or when a managed service choice is central to the recommendation.
+
+Check these cost buckets when relevant:
+
+- base subscription or plan requirement
+- per-project, per-organization, per-seat, or per-environment charges
+- compute/runtime hours, serverless invocations, background jobs, queues, and cron
+- database size, read/write volume, backups, replicas, point-in-time recovery, and connection pooling
+- file/object storage, bandwidth, image/video transformations, CDN, and egress
+- auth users, monthly active users, multi-factor auth, SSO, organizations/teams, and custom domains
+- API requests, AI token usage, embeddings/vector storage, rate limits, and overages
+- logs, metrics, tracing, alerts, retention, and observability add-ons
+- support tiers, compliance/security features, audit logs, and enterprise-only requirements
+- migration/exit cost, data portability, vendor lock-in, local dev parity, and self-hosting fallback
+
+Use scenario-based language instead of fake precision:
+
+- **Prototype cost** - what is likely free or near-free while usage is tiny.
+- **Launch cost** - what changes once real users, storage, background jobs, or custom domains appear.
+- **Growth cost** - which line items scale fastest or create lock-in.
+
+If exact prices are verified, cite them with source and observed date. If not verified, avoid numbers and explain which pricing dimensions could overturn the stack choice.
+
+## Tradeoff Discipline
+
+Make tradeoffs memorable and blunt. For every primary recommendation, include:
+
+- **What you gain** - the specific speed, simplicity, reliability, cost, ecosystem, or operational benefit.
+- **What you give up** - the lost flexibility, control, performance, hiring pool, portability, or future option.
+- **What becomes harder later** - migration, scaling, compliance, collaboration, data model changes, or local development.
+- **When this becomes wrong** - the user/team/usage/pricing/compliance condition that should trigger a different choice.
+
 ## Evaluation Heuristics
 
 Assess the project or proposed approach across these dimensions when relevant:
@@ -177,6 +224,7 @@ Assess the project or proposed approach across these dimensions when relevant:
 - **Architecture** - boundaries, dependency direction, data flow, extensibility, and whether important concepts have clear homes.
 - **Tech stack fit** - framework maturity, ecosystem support, deployment path, hiring/community, learning curve, performance needs, and maintenance cost.
 - **Build speed** - how quickly the user can get to a useful working version without painting themselves into a corner.
+- **Operating cost** - base plans, quotas, storage, bandwidth, seats, usage growth, add-ons, self-hosting cost, and lock-in.
 - **Correctness and reliability** - validation, error handling, edge cases, transactions, concurrency, and failure modes.
 - **Security and privacy** - auth, authorization, secrets hygiene, input handling, dependency risk, and sensitive data handling.
 - **Developer experience** - setup path, scripts, docs, CI, static checks, test feedback loops, and deploy clarity.
@@ -208,11 +256,14 @@ Use the contract that matches the operating mode.
 ### Recommended Stack
 <Frontend, backend, data, auth, hosting, testing, observability, and any key libraries.>
 
+### Cost and Vendor Reality
+<Pricing/limits checked, unverified cost assumptions, likely cost growth, lock-in, and lower-cost/self-hosted alternatives when relevant.>
+
 ### Architecture Direction
 <How the project should be structured. Include a Mermaid or ASCII diagram when helpful.>
 
 ### Alternatives Considered
-1. **<Option>** - <when it is better, when it is worse>.
+1. **<Option>** - <what you gain, what you give up, what becomes harder later, when it is wrong>.
 
 ### Build Plan
 1. <First useful vertical slice>
@@ -268,6 +319,9 @@ Use the contract that matches the operating mode.
 
 ### Stack and Architecture Verdict
 <Keep, adjust, or reconsider. Name tradeoffs and migration cost if relevant.>
+
+### Cost and Vendor Reality
+<Pricing/limits checked, unverified cost assumptions, likely cost growth, lock-in, and lower-cost/self-hosted alternatives when relevant.>
 
 ### Risks, Assumptions, and Unknowns
 - <What could change the verdict.>

@@ -1,12 +1,12 @@
 # advise-project-approach
 
-> A Claude/Codex skill that researches the best way to build your project before you commit to the wrong stack.
+> A portable AI workflow that researches the best way to build your project before you commit to the wrong stack, vendor, or cost model.
 
 ![advise-project-approach social preview](./assets/social-preview.png)
 
 You know that friend who has built fifteen projects, read every ADR ever written, and will tell you "actually, don't use Kafka for this" before you have even opened your editor?
 
-This is that friend. As a skill.
+This is that friend. As a skill-shaped workflow.
 
 ## One-Line Install
 
@@ -15,6 +15,16 @@ npx skills@latest add AaravKashyap12/advise-project-approach --skill advise-proj
 ```
 
 This uses the open `skills` installer to fetch the repo from GitHub and install only this skill. It requires Node.js/npm. Review installed skills before use; skills run with your agent's normal permissions.
+
+## What Changed in v0.3
+
+v0.3 focuses on the thing generic AI stack advice often misses: real operating cost.
+
+- Adds pricing and operating-cost analysis for managed services, hosting, storage, auth, AI APIs, observability, and lock-in.
+- Treats "free to start" as a claim to verify, not a reason to recommend a vendor.
+- Makes tradeoffs more blunt: what you gain, what you give up, what becomes harder later, and when the recommendation becomes wrong.
+- Clarifies that the core workflow is vendor-agnostic: `SKILL.md` can be copied into any agent harness.
+- Adds a pricing-focused example for Supabase-style recommendations.
 
 ## What Changed in v0.2
 
@@ -35,6 +45,7 @@ Based on launch feedback, v0.2 makes the skill more rigorous and easier to judge
 "Review my finished project at github.com/owner/repo."
 "Should I use Postgres or SQLite for this?"
 "What stack should I use given I know Python and want to self-host?"
+"Should I use Supabase/Firebase/Neon/Vercel, or will pricing hurt later?"
 ```
 
 ## What It Does
@@ -48,6 +59,16 @@ Drop it into your agent and it will:
 It does the research loop a good engineer would do manually: understand the goal, inspect the evidence, study credible comparables, evaluate the tradeoffs, and recommend the highest-leverage path.
 
 No vibes. Evidence first.
+
+## Works Beyond Claude/Codex
+
+The workflow is intentionally self-contained in:
+
+```text
+skills/advise-project-approach/SKILL.md
+```
+
+The packaged `.skill` file and `agents/openai.yaml` are convenience metadata for compatible installers and UIs. A non-Claude or non-Codex harness can copy the `SKILL.md` instructions, adapt its own trigger/loading mechanism, and still use the same decision workflow.
 
 ## Install
 
@@ -71,7 +92,7 @@ Download the packaged skill:
 
 Or install from the GitHub release:
 
-[v0.2.0 release asset](https://github.com/AaravKashyap12/advise-project-approach/releases/download/v0.2.0/advise-project-approach.skill)
+[v0.3.0 release asset](https://github.com/AaravKashyap12/advise-project-approach/releases/download/v0.3.0/advise-project-approach.skill)
 
 #### Skill UI
 
@@ -117,6 +138,7 @@ The demo avoids hard-coded star counts and "latest" dates because those decay. T
 See more examples:
 
 - [A/B comparisons against generic prompting](./examples/ab-comparisons.md)
+- [Pricing and operating-cost example](./examples/pricing-operating-cost.md)
 - [Pre-build bookmark manager](./examples/prebuild-bookmark-manager.md)
 - [Mid-build Express API](./examples/midbuild-express-api.md)
 - [Post-build FastAPI template](./examples/postbuild-fastapi-template.md)
@@ -128,9 +150,11 @@ Without the skill, an agent will usually give you an answer. This skill makes it
 - Every "active" or "maintained" claim needs an exact date or adoption signal.
 - Comparable projects are verified against real repos, docs, or other primary sources.
 - Comparables must be separated into what transfers and what should not be copied.
+- Pricing claims must distinguish "free to start" from "cheap to operate."
+- Vendor choices must consider storage, bandwidth, usage limits, add-ons, migration cost, and lock-in.
 - If no repo was provided, it says "advisory from description" instead of pretending it inspected files.
 - Large repos are mapped first, then sampled by relevance instead of read blindly.
-- The recommendation includes when it becomes the wrong recommendation.
+- The recommendation includes what you gain, what you give up, what becomes harder later, and when it becomes wrong.
 - A self-check runs before output: is this grounded in actual project constraints, or is it generic?
 
 ## What It Produces
@@ -140,7 +164,7 @@ Without the skill, an agent will usually give you an answer. This skill makes it
 ```text
 ## Project Approach: <name>
 TL;DR / Project Frame / Comparable Projects / Recommended Stack /
-Architecture Direction / Alternatives Considered / Build Plan /
+Cost and Vendor Reality / Architecture Direction / Alternatives Considered / Build Plan /
 Risks and Unknowns / References
 ```
 
@@ -151,12 +175,14 @@ Risks and Unknowns / References
 TL;DR / Project Summary / Evidence Reviewed, including evidence status /
 What Is Working / Comparable Projects / Gap Analysis /
 Recommended Changes, grouped High / Medium / Low /
-Stack and Architecture Verdict / Risks and References
+Stack and Architecture Verdict / Cost and Vendor Reality / Risks and References
 ```
 
 ## What It Will Not Do
 
 - Invent star counts, last-commit dates, benchmark numbers, or production adoption claims.
+- Treat "free to start" as proof that a vendor is cheap to operate.
+- Invent prices, quotas, usage limits, or cost estimates without sources.
 - Pretend it reviewed files when you only gave it a description.
 - Tell you to add auth, tests, or Docker if you already have them.
 - Recommend something because it is trending instead of because it fits your constraints.
@@ -169,6 +195,7 @@ Stack and Architecture Verdict / Risks and References
 |-- README.md
 |-- LICENSE
 |-- CHANGELOG.md
+|-- ROADMAP.md
 |-- CONTRIBUTING.md
 |-- SECURITY.md
 |-- CLAUDE.md
@@ -188,6 +215,7 @@ Stack and Architecture Verdict / Risks and References
 |           `-- openai.yaml
 |-- examples/
 |   |-- ab-comparisons.md
+|   |-- pricing-operating-cost.md
 |   |-- prebuild-bookmark-manager.md
 |   |-- midbuild-express-api.md
 |   `-- postbuild-fastapi-template.md

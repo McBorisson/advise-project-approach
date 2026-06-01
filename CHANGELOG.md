@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.0 - 2026-06-01
+
+- Added pricing and operating-cost analysis for managed services, hosting, storage, auth, AI APIs, observability, and vendor lock-in.
+- Added explicit "free to start is not cheap to operate" safeguards for stack and vendor recommendations.
+- Made tradeoffs more aggressive: what you gain, what you give up, what becomes harder later, and when the recommendation becomes wrong.
+- Added vendor-agnostic README guidance for copying `SKILL.md` into non-Claude/non-Codex agent harnesses.
+- Added a pricing-focused example showing how generic "use Supabase" advice should be challenged.
+- Updated trigger metadata and package metadata for cost/vendor-choice use cases.
+
 ## 0.2.0 - 2026-05-30
 
 - Added an explicit decision methodology: constraints, comparables, transferable patterns, tradeoffs, recommendation, and failure conditions.
